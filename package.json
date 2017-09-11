@@ -11,5 +11,9 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "express": "^4.15.4"
+  },
+  "devDependencies": {
+    "mongodb": "^2.2.31",
+    "q": "^1.5.0"
   }
 }

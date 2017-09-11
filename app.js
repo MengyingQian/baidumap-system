@@ -2,6 +2,7 @@
 
 var express = require("express");
 var bodyParser = require('body-parser');
+var db = require('./lib/DBOperation');
 var app = express();
 
 app.use(bodyParser.json()); // for parsing application/json
@@ -9,9 +10,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //允许跨域
 app.all('*',function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
     res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Credentials', 'true');
 
     if (req.method == 'OPTIONS') {
         console.log("OPTIONS")
@@ -23,9 +25,16 @@ app.all('*',function (req, res, next) {
 });
 
 //接收请求
-app.post('/test',function(req,res){
-    console.log(req.body.name);
-    res.send("success");
+app.post('/mapRectangle',function(req,res){
+    console.log(req.body);
+    var data = {
+        code: 0,
+        msg: "success",
+        data: {
+            name: "liqiang"
+        }
+    }
+    res.send({data});
 });
 
 //捕捉系统异常，防止错误引发宕机
