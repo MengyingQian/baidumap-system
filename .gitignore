@@ -1,6 +1,4 @@
 .DS_Store
-node_modules/
-package-lock.json
 dist/
 npm-debug.log*
 yarn-debug.log*
@@ -9,3 +7,6 @@ test/unit/coverage
 test/e2e/reports
 selenium-debug.log
 *.zip
+*.txt
+node_modules
+package-lock.json
