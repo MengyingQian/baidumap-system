@@ -7,5 +7,5 @@ test/e2e/reports
 selenium-debug.log
 *.zip
 *.txt
-node_modules/
+*node_modules*
 package-lock.json
