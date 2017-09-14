@@ -5,8 +5,8 @@ var morgan = require('morgan');//打印访问日志到本地文件
 var fs = require('fs');
 var path = require('path');
 var bodyParser = require('body-parser');
-var db = require('./lib/DBOperation');
 var app = express();
+var pages = require("./src/index.js");
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); 
@@ -34,13 +34,11 @@ app.all('*',function (req, res, next) {
 //接受请求
 app.post('/mapRectangle',function(req,res){
     // console.log(req.body);
-    
+    var result = pages.mapRectangle(req);
     var data = {
         code: 0,
         msg: "success",
-        data: {
-            name: "liqiang"
-        }
+        data: result
     }
     res.send({data});
 });
