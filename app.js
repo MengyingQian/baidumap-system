@@ -6,7 +6,7 @@ var fs = require('fs');
 var path = require('path');
 var bodyParser = require('body-parser');
 var app = express();
-var pages = require("./src/index.js");
+var operation = require("./src/index.js");
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); 
@@ -24,7 +24,7 @@ app.all('*',function (req, res, next) {
 
     if (req.method == 'OPTIONS') {
         console.log("OPTIONS")
-        res.send(200); /让options请求快速返回/
+        res.send(200); /*让options请求快速返回*/
     }
     else {
         next();
@@ -34,13 +34,15 @@ app.all('*',function (req, res, next) {
 //接受请求
 app.post('/mapRectangle',function(req,res){
     // console.log(req.body);
-    var result = pages.mapRectangle(req);
-    var data = {
-        code: 0,
-        msg: "success",
-        data: result
-    }
-    res.send({data});
+    operation.mapRectangle(req.body)
+    .then(function(result){
+        var data = {
+            code: 0,
+            msg: "success",
+            data: result
+        }
+        res.send({data});
+    })
 });
 
 //捕捉系统异常，防止错误引发宕机
