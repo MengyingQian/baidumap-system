@@ -39,7 +39,7 @@ db.open(function(err, db){
     //db.close(); 
     //setTimeout("db.close()",2000);
     });
-    db.collection("LTE_operation ", function (err,collection) {
+    db.collection("LTE_operation", function (err,collection) {
       if(err) throw err;
       var fileStr = fs.readFileSync('taizhan_LTE.txt', {encoding:'binary'});
       var buf = new Buffer(fileStr, 'binary');

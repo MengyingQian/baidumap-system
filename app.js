@@ -34,15 +34,19 @@ app.all('*',function (req, res, next) {
 //接受请求
 app.post('/mapRectangle',function(req,res){
     // console.log(req.body);
-    operation.mapRectangle(req.body)
-    .then(function(result){
-        var data = {
+    function* genF (params) {
+        var result = yield operation.mapRectangle(req.body);
+        var data = yield  {
             code: 0,
             msg: "success",
             data: result
-        }
-        res.send({data});
-    })
+        };
+        return res.send(data)
+    }
+    var run = genF(req.body);
+    var result = run.next();
+    var data = run.next(result.value);
+    run.next(data.value);
 });
 
 //捕捉系统异常，防止错误引发宕机
