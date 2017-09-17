@@ -2,9 +2,14 @@ var db = require('../lib/DBOperation');
 var refer = require('..//lib/getRefer');
 var _ = require('../lib/underscore.v1.8.3.js')
 
-module.exports = function (params) {
-    var props = ["业务时间"];
-    
+module.exports = async function (params) {
+
+    return new Promise(function(resolve,reject){
+        resolve(singleSearch(params));
+    })
+}
+
+function singleSearch (params) {
     const search = async function (params) {
         var params1 = await refer.getReferBase(params);//获取查询设置表的查询条件
         var result1 = await db.DB_base(params1);
@@ -30,5 +35,5 @@ function organizeData (obj) {
             }
         }
     }
-    return baseInfo;
+    return {baseInfo: baseInfo};
 }

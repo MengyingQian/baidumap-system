@@ -35,7 +35,7 @@ app.all('*',function (req, res, next) {
 app.post('/mapRectangle',function(req,res){
     operation.mapRectangle(req.body)
     .then(function(data){
-        res.sendStatus({
+        res.status(200).send({
             code: 0,
             msg: "success",
             data: data
