@@ -21,7 +21,6 @@ db.open(function(err, db){
                   "对象标识":dataline[i].split("\x09")[0],
                   "运营商类型": dataline[i].split("\x09")[1],
                   "制式类型": dataline[i].split("\x09")[2],
-                  
                   "geom":{
                     "type":"Point",
                     "coordinates":[Number(dataline[i].split("\x09")[4]),Number(dataline[i].split("\x09")[5])]
@@ -31,7 +30,7 @@ db.open(function(err, db){
                   "DownTilt(度)": Number(dataline[i].split("\x09")[8]),
                   "载波频点(MHz)": Number(dataline[i].split("\x09")[9]),
                   "基站发射功率(dBm)": Number(dataline[i].split("\x09")[10]),
-                  
+                  "共站情况":dataline[i].split("\x09")[11]
                 },
                 {safe:true},function(err,result){});
       }
@@ -51,7 +50,6 @@ db.open(function(err, db){
         collection.insert({
           "编号":Math.ceil(i/24),
           "业务时间": dataline[i].split("\x09")[3],
-          "共站情况":dataline[i].split("\x09")[11],
           "RRC连接建立请求次数(次)": Number(dataline[i].split("\x09")[12]),
           "RRC连接建立成功次数(次)": Number(dataline[i].split("\x09")[13]),
           "RRC连接建立成功率(%)": Number(dataline[i].split("\x09")[14]),
