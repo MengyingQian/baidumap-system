@@ -35,6 +35,7 @@ app.all('*',function (req, res, next) {
 app.post('/mapRectangle',function(req,res){
     operation.mapRectangle(req.body)
     .then(function(data){
+        console.log("success")
         res.status(200).send({
             code: 0,
             msg: "success",
@@ -42,6 +43,7 @@ app.post('/mapRectangle',function(req,res){
         })
     })
     .catch(function(err){
+        console.log("fail",err)
         res.send({
             code: 1,
             msg: err
