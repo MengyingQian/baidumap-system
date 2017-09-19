@@ -22,7 +22,20 @@ module.exports = async function (params) {
 
     //使用promise.all查询
     return await Promise.all(resultArr)
-    // return singleSearch(params);
+    .then(function(data){//将区域和基站点分别汇总到一起
+        var result = {
+            searchBox: [],
+            baseInfo: []
+        }
+        for(var i=0,len=data.length;i<len;i++){
+            result.searchBox.push(data[i].searchBox);
+            for(var j=0,len1=data[i].baseInfo.length;j<len1;j++){
+                data[i].baseInfo[j].recIndex = i;
+                result.baseInfo.push(data[i].baseInfo[j]);
+            }
+        }
+        return result;
+    })
 }
 
 
