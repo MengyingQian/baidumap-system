@@ -32,6 +32,7 @@ app.all('*',function (req, res, next) {
 });
 
 //接受请求
+// 业务量分析
 app.post('/mapRectangle',function(req,res){
     operation.mapRectangle(req.body)
     .then(function(data){
@@ -51,6 +52,25 @@ app.post('/mapRectangle',function(req,res){
     })
 });
 
+// 覆盖分析
+app.post("/coverage",function(req,res){
+    operation.coverage(req.body)
+    .then(function(data){
+        console.log("success")
+        res.status(200).send({
+            code: 0,
+            msg: "success",
+            data: data
+        })
+    })
+    .catch(function(err){
+        console.log("fail",err)
+        res.send({
+            code: 1,
+            msg: err
+        })
+    })
+})
 //捕捉系统异常，防止错误引发宕机
 /*process.on('uncaughtException', function(e) {
 　　console.log('uncaughtException'+e);
