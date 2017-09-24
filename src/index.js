@@ -1,5 +1,5 @@
 module.exports = {
-	coverage: require("./hot-map.js"),
+	coverage: require("./coverage.js"),
 	interference: require("./interference.js"),
 	mapRectangle: require("./map-rectangle.js"),
 	networkLayout: require("./network-layout.js"),

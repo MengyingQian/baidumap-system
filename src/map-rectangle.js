@@ -3,9 +3,37 @@ var refer = require('..//lib/getRefer');
 var _ = require('../lib/underscore.v1.8.3.js')
 
 module.exports = async function (params) {
-    var resultArr = [];
     if (!params.searchBox) throw "缺失地理位置参数"
+
+    var searchArr = await getSearchArr(params);//生成多个查询栅格条件
+    var resultArr = await Promise.all(searchArr);//使用promise.all查询
+    var result = await getResult(resultArr);//将区域和基站点分别汇总到一起
+    
+    return {
+        code: 0,
+        msg: "success",
+        data: result
+    }
+}
+
+function getResult (data) {
+    var result = {
+        searchBox: [],
+        baseInfo: []
+    }
+    for(var i=0,len=data.length;i<len;i++){
+        result.searchBox.push(data[i].searchBox);
+        for(var j=0,len1=data[i].baseInfo.length;j<len1;j++){
+            data[i].baseInfo[j].recIndex = i;
+            result.baseInfo.push(data[i].baseInfo[j]);
+        }
+    }
+    return result;
+}
+
+function getSearchArr (params) {
     //设置每次查询的地理范围
+    var resultArr = [];
     var startLng = parseFloat(params.searchBox[0]);// 视野左下角经度
     var startLat = parseFloat(params.searchBox[1]);// 视野左下角维度
     var endLng = parseFloat(params.searchBox[2]);// 视野左上角经度
@@ -19,25 +47,8 @@ module.exports = async function (params) {
             resultArr.push(singleSearch(obj));// 数组存储单次查询的promise
         }
     }
-
-    //使用promise.all查询
-    return await Promise.all(resultArr)
-    .then(function(data){//将区域和基站点分别汇总到一起
-        var result = {
-            searchBox: [],
-            baseInfo: []
-        }
-        for(var i=0,len=data.length;i<len;i++){
-            result.searchBox.push(data[i].searchBox);
-            for(var j=0,len1=data[i].baseInfo.length;j<len1;j++){
-                data[i].baseInfo[j].recIndex = i;
-                result.baseInfo.push(data[i].baseInfo[j]);
-            }
-        }
-        return result;
-    })
+    return resultArr;
 }
-
 
 // 单个网格查询
 function singleSearch (params) {
