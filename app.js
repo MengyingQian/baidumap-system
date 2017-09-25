@@ -7,6 +7,7 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var app = express();
 var operation = require("./src/index.js");
+var config = require("./config.js")//引入配置文件
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); 
@@ -35,7 +36,7 @@ app.all('*',function (req, res, next) {
 // 业务量分析
 app.post('/mapRectangle',function(req,res){
     operation.mapRectangle(req.body)
-    .then(function(data){res.status(200).send(data)})
+    .then(function(data){console.log("seccess");res.status(200).send(data)})
     .catch(function(err){
         return {
             code: 1,
@@ -46,7 +47,7 @@ app.post('/mapRectangle',function(req,res){
 // 覆盖分析
 app.post("/coverage",function(req,res){
     operation.coverage(req.body)
-    .then(function(data){res.status(200).send(data) })
+    .then(function(data){console.log("seccess");res.status(200).send(data)})
     .catch(function(err){res.send(data)})
 })
 //捕捉系统异常，防止错误引发宕机
@@ -61,6 +62,6 @@ app.use(function(err, req, res, next) {
     next();  
 });
 //监听8081端口
-app.listen(8081, function(){
-    console.log("Express server listening 8081");
+app.listen(config.port, function(){
+    console.log("Express server listening " + config.port);
 });

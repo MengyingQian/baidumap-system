@@ -30,7 +30,6 @@ function getNearBase(baseInfo,params){
     var minLat = step/(1000*111);// 单个栅格维度变化
     var n1 = Math.ceil((endLng-startLng)/minLng);//搜索区域内经度轴方格数
     var n2 = Math.ceil((endLat-startLat)/minLat);//搜索区域内纬度轴方格数
-
     var array = [];
     var calPoints = [];
     var basePoints = [];
@@ -47,15 +46,15 @@ function getNearBase(baseInfo,params){
     for(var i=numLng;i<n1-numLng;i++){//生成所有的待查询点并查询
         var lng=startLng+minLng*i;
         
-        var minX = (i-numLng<0)?0:(i-numLng);//确定X轴搜索范围
-        var maxX = (i+numLng>n1)?n1:(i+numLng);
+        var minX = i-numLng;//确定X轴搜索范围
+        var maxX = i+numLng;
         //console.log(i);
         for(var j=numLat;j<n2-numLat;j++){
             var lat=startLat+minLat*j;
             //console.log(j);
             var BSpoint = [];
-            var minY = (j-numLat<0)?0:(j-numLat);//确定Y轴搜索范围
-            var maxY = (j+numLat>n2)?n2:(j+numLat);
+            var minY = j-numLat;//确定Y轴搜索范围
+            var maxY = j+numLat;
             //console.log(minY+'  '+maxY);
             for(var x=minX;x<maxX;x++){//查询临近基站
                 for(var y=minY;y<maxY;y++){
@@ -63,10 +62,12 @@ function getNearBase(baseInfo,params){
                     BSpoint = BSpoint.concat(array[x*n2+y]);
                 }
             }
-            if (BSpoint.length>0) {
-                calPoints.push([lng,lat]);//存入查询点
-                basePoints.push(BSpoint);//存入附近基站点
-            }
+            // if (BSpoint.length>0) {
+            //     calPoints.push([lng,lat]);//存入查询点
+            //     basePoints.push(BSpoint);//存入附近基站点
+            // }
+            calPoints.push([lng,lat]);//存入查询点
+            basePoints.push(BSpoint);//存入附近基站点
         }
     }
     //console.log(points2[160][0]);
