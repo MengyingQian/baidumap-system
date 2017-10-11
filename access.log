@@ -180,3 +180,4 @@
 ::ffff:127.0.0.1 - POST /coverage HTTP/1.1 200 573550 - 11789.400 ms
 ::ffff:127.0.0.1 - OPTIONS /mapRectangle HTTP/1.1 200 2 - 0.910 ms
 ::ffff:127.0.0.1 - POST /mapRectangle HTTP/1.1 200 191524 - 210.377 ms
+::ffff:127.0.0.1 - POST /mapRectangle HTTP/1.1 200 120702 - 583.088 ms
