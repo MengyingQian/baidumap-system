@@ -4,15 +4,21 @@ var calculate = require('../lib/calculate.js')
 var _ = require('../lib/underscore.v1.8.3.js')
 
 module.exports = async function(params){
-    var referBase = await refer.getReferBase(params);//获取基站查询条件
-    var baseInfo = await db.DB_base(referBase);//获取视野内基站信息
-    var baseGrid = await getNearBase(baseInfo,params);// 基站栅格化并获取每个点的最近基站
-    var result = await calculate.coverage(baseGrid);// 计算每个点接收功率
-
-    return {
-        code: 0,
-        msg: "success",
-        data: result
+    try{
+        var referBase = await refer.getReferBase(params);//获取基站查询条件
+        var baseInfo = await db.DB_base(referBase);//获取视野内基站信息
+        var baseGrid = await getNearBase(baseInfo,params);// 基站栅格化并获取每个点的最近基站
+        var result = await calculate.coverage(baseGrid);// 计算每个点接收功率
+        return {
+            code: 0,
+            msg: "success",
+            data: result
+        }
+    }catch (err) {
+        return {
+            code: 1,
+            msg: err
+        }
     }
 }
 

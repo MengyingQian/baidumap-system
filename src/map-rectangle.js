@@ -3,17 +3,22 @@ var refer = require('..//lib/getRefer');
 var _ = require('../lib/underscore.v1.8.3.js')
 
 module.exports = async function (params) {
-    if (!params.searchBox) throw "缺失地理位置参数"
-
-    var searchArr = await getSearchArr(params);//生成多个查询栅格条件
-    var resultArr = await Promise.all(searchArr);//使用promise.all查询
-    var result = await getResult(resultArr);//将区域和基站点分别汇总到一起
-    
-    return {
-        code: 0,
-        msg: "success",
-        data: result
-    }
+    try{
+        if (!params.searchBox) throw "缺失地理位置参数"
+        var searchArr = await getSearchArr(params);//生成多个查询栅格条件
+        var resultArr = await Promise.all(searchArr);//使用promise.all查询
+        var result = await getResult(resultArr);//将区域和基站点分别汇总到一起
+        return {
+            code: 0,
+            msg: "success",
+            data: result
+        }
+    }catch (err) {
+        return {
+            code: 1,
+            msg: err
+        }
+    }  
 }
 
 function getResult (data) {
