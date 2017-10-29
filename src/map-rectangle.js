@@ -19,13 +19,13 @@ module.exports = async function (params) {
         params.searchBox[2] = params.searchBox[0] + Math.ceil((params.searchBox[2]-params.searchBox[0])/minLng)*minLng;
         params.searchBox[3] = params.searchBox[1] + Math.ceil((params.searchBox[3]-params.searchBox[1])/minLat)*minLat;
         var params1 = await refer.getReferBase(params);//获取查询设置表的查询条件
-        var result1 = await db.DB_base(params1);
-        var params2 = await refer.getReferOperation(params,result1);
-        var result2 = await db.DB_operation(params2);
+        var baseInfo = await db.DB_base(params1);
+        var params2 = await refer.getReferOperation(params,baseInfo);
+        var operaInfo = await db.DB_operation(params2);
         var result = await organizeData_all({
                     searchBox: params.searchBox,
-                    baseInfo: result1,
-                    operaInfo: result2,
+                    baseInfo: baseInfo,
+                    operaInfo: operaInfo,
                     minLng: minLng,
                     minLat: minLat
                 })
@@ -54,8 +54,8 @@ function getResult (data) {
             result.baseInfo.push(data[i].baseInfo[j]);
         }
     }
-    console.log("栅格数目" + result.baseInfo.length)
-    console.log("基站数目" + result.searchBox.length)
+    // console.log("栅格数目" + result.baseInfo.length)
+    // console.log("基站数目" + result.searchBox.length)
     return result;
 }
 
@@ -65,6 +65,7 @@ function getResult (data) {
 //                 106.82772816985458,
 //                 26.663263054054056
 //             ]
+
 function getSearchArr (params) {
     //设置每次查询的地理范围
     var resultArr = [];
