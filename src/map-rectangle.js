@@ -144,14 +144,14 @@ function organizeData_all (obj) {
     var endLat = parseFloat(obj.searchBox[3]);// 视野右上角维度
     var minLng = obj.minLng;// 单个栅格经度变化
     var minLat = obj.minLat;// 单个栅格维度变化
-    console.log(obj.searchBox)
+    // console.log(obj.searchBox)
     for (var lng=startLng;lng<endLng;lng+=minLng) {
         for(var lat=startLat;lat<endLat;lat+=minLat) {
             searchBox.push([lng,lat,lng+minLng,lat+minLat]);
         }
     }
-    console.log("栅格数目" + searchBox.length)
-    console.log("基站数目" + baseInfo.length)
+    // console.log("栅格数目" + searchBox.length)
+    // console.log("基站数目" + baseInfo.length)
     return {
         searchBox: searchBox,
         baseInfo: baseInfo

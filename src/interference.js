@@ -7,11 +7,11 @@ module.exports = async function (params) {
     try{
         var referBase = await refer.getReferBase(params);//获取基站查询条件
         var baseInfo = await db.DB_base(referBase);//获取视野内基站信息
-        var searchArr = await getSearchArr(baseInfo,params);//生成多个查询栅格条件
-        var resultArr = await Promise.all(searchArr);//使用promise.all查询
+        var searchArr = await getSearchArr(baseInfo,params);//生成多个查询基站条件
+        var operaInfo = await Promise.all(searchArr);//使用promise.all查询
         var data = {
             station1: baseInfo,
-            station2: resultArr
+            station2: operaInfo
         }
         var result = await calculate.interference(data);
         return {
@@ -35,7 +35,7 @@ function getSearchArr (data,params) {
     for (var i=0,len=data.length;i<len;i++) {
         resultArr.push(singleSearch(data[i],params));
     }
-    console.log(resultArr.length)
+    // console.log(resultArr.length)
     return resultArr;
 }
 
@@ -49,6 +49,7 @@ function singleSearch (data,params) {
             freqRange: params.freqRange,
             nearPoint: data.geom.coordinates,
             objectID: data["对象标识"],
+            frequence: data["载波频点(MHz)"],
             limitNum: 1
         }
         var referBase = await refer.getReferBase(nearParams);

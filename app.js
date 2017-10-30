@@ -56,6 +56,12 @@ app.post("/resourceRate",function(req,res){
     operation.resourceRate(req.body)
     .then(function(data){res.status(200).send(data)})
 })
+
+// 资源利用率分析
+app.post("/networkLayout",function(req,res){
+    operation.networkLayout(req.body)
+    .then(function(data){res.status(200).send(data)})
+})
 //捕捉系统异常，防止错误引发宕机
 /*process.on('uncaughtException', function(e) {
 　　console.log('uncaughtException'+e);

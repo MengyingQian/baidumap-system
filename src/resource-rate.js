@@ -7,16 +7,13 @@ module.exports = async function (params) {
 	try{
 		var params1 = await refer.getReferBase(params);//获取查询设置表的查询条件
 		var baseInfo = await db.DB_base(params1);
-		console.log(1)
 		var params2 = await refer.getReferOperation(params,baseInfo);
 		var operaInfo = await db.DB_operation(params2);
-		console.log(2)
 		var data = await organizeData({
 			baseInfo: baseInfo,
 			operaInfo: operaInfo
 		})
 		var result = await calculate.rate(data);
-		console.log(3)
 		return {
 		    code: 0,
 		    msg: "success",
