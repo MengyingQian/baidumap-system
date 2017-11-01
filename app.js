@@ -36,19 +36,13 @@ app.all('*',function (req, res, next) {
 // 业务量分析
 app.post('/mapRectangle',function(req,res){
     operation.mapRectangle(req.body)
-    .then(function(data){console.log("seccess");res.status(200).send(data)})
-    .catch(function(err){
-        return {
-            code: 1,
-            msg: err
-        }})
+    .then(function(data){res.status(200).send(data)})
 });
 
 // 覆盖分析
 app.post("/coverage",function(req,res){
     operation.coverage(req.body)
-    .then(function(data){console.log("seccess");res.status(200).send(data)})
-    .catch(function(err){res.send(data)})
+    .then(function(data){res.status(200).send(data)})
 })
 
 // 干扰分析
