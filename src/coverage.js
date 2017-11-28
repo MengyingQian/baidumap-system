@@ -5,11 +5,16 @@ var _ = require('../lib/underscore.v1.8.3.js')
 
 module.exports = async function(params){
     try{
+        // var startTime = new Date();
         var referBase = await refer.getReferBase(params);//获取基站查询条件
         var baseInfo = await db.DB_base(referBase);//获取视野内基站信息
         var baseGrid = await getNearBase(baseInfo,params);// 基站栅格化并获取每个点的最近基站
         
         var result = await calculate.coverage(baseGrid);// 计算每个点接收功率
+
+        // var endTime = new Date();
+        // console.log("\n本次覆盖分析计算用时 " + (endTime.getTime() - startTime.getTime()) + " 毫秒");
+
         return {
             code: 0,
             msg: "success",
@@ -25,7 +30,7 @@ module.exports = async function(params){
 
 //near base station
 function getNearBase(baseInfo,params){
-    var t1 = new Date();
+    // var t1 = new Date();
     var startLng = parseFloat(params.searchBox[0]);
     var startLat = parseFloat(params.searchBox[1]);
     var endLng = parseFloat(params.searchBox[2]);
@@ -78,6 +83,9 @@ function getNearBase(baseInfo,params){
             // if(lng === 106.7491333094491 && lat === 26.61821800900901) {
             //     console.log(BSpoint);
             // }
+            // BSpoint.sort(function(pre,next){
+            //     var preDis = 
+            // })
             calPoints.push([lng,lat]);//存入查询点
             basePoints.push(BSpoint);//存入附近基站点
         }
@@ -85,9 +93,9 @@ function getNearBase(baseInfo,params){
     //console.log(points2[160][0]);
     //console.log('最终长度'+calPoints.length);
     // 查询速度对比
-    var t2 = new Date();
-    console.log("\n本次邻域计算用时 " + (t2.getTime()-t1.getTime()) + " 毫秒");
-    console.log("\n测量点数目： " + calPoints.length);
+    // var t2 = new Date();
+    // console.log("\n本次邻域计算用时 " + (t2.getTime()-t1.getTime()) + " 毫秒");
+    // console.log("\n测量点数目： " + calPoints.length);
 
     return {
         calPoints: calPoints,//测量点坐标
